@@ -1,0 +1,52 @@
+﻿@model AjaxMVC.Models.Employee
+
+<h2 align="center">Добавление сотрудника в @ViewBag.Department.DepartmentName</h2>
+
+@using (Ajax.BeginForm("CreateEmployee", "Employee",new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "main" }, htmlAttributes: new { id = "form1" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">        
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">            
+            @Html.LabelFor(model => model.FirstMidName, "Имя Отчество", htmlAttributes: new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FirstMidName, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.FirstMidName, "", new {@class = "text-danger"})
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LastName, "Фамилия", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Position, "Должность", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Position, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
+            </div>
+            @Html.HiddenFor(model => model.DepartmentId, new { value = @ViewBag.Department.DepartmentId })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <br />
+            <input type="submit" value="Создать" class="btn btn-default" />
+        </div>
+    </div>
+}<br />
+<div class="col-lg-4">
+    @Ajax.ActionLink("Назад", "PartialIndex","Home",new AjaxOptions
+    {         
+        UpdateTargetId = "main"
+    })
+</div>
+<script>
+    $.validator.unobtrusive.parse('#form1');    
+</script>

@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Department>
+@using AjaxMVC.Models
+@helper BuildTree(IEnumerable<Department> departmentslist, int? parentId = null)
+{
+var listDepartments = departmentslist.Where(d => d.ParentDepartmentId == parentId).OrderBy(i => i.DepartmentId);
+if (listDepartments.Any())
+{
+
+        <ul>
+            @foreach (var department in listDepartments)
+            {
+                <li>
+                    <div>
+                        <h4 style="display: inline;">@department.DepartmentName</h4>
+                        @Ajax.ActionLink(" ", "AddDepartment", "Home", new { parentId = department.DepartmentId },
+                            new AjaxOptions
+                            {
+                                UpdateTargetId = "main",
+
+                            },
+                            new
+                            {
+                                Class = "glyphicon glyphicon-plus"
+                            })
+                        @Ajax.ActionLink(" ", "DeleteDepartment","Home", new { departmentId = department.DepartmentId },
+                            new AjaxOptions
+                            {
+
+                                UpdateTargetId = "main",
+
+                            },
+                            new
+                            {
+                                Class = "glyphicon glyphicon-remove"
+                            })
+                    </div>
+
+                    <details>
+                        <summary>
+                            Сотрудники
+                            @Ajax.ActionLink(" ", "AddEmployee", "Employee", new { departmentId = department.DepartmentId },
+                                new AjaxOptions
+                                {
+
+                                    UpdateTargetId = "main",
+
+                                },
+                                new
+                                {
+                                    Class = "glyphicon glyphicon-plus"
+                                })
+                        </summary>
+
+                        @foreach (var em in department.Employees)
+                        {
+                            <div class="row">
+                                <div class="col-md-4">
+                                    @em.LastName @em.FirstMidName
+                                    @Ajax.ActionLink(" ", "EditEmployee","Employee", new { employeeId = em.EmployeeId },
+                                        new AjaxOptions
+                                        {
+                                            UpdateTargetId = "main",
+
+                                        },
+                                        new
+                                        {
+                                            Class = "glyphicon glyphicon-edit"
+                                        })
+                                    @Ajax.ActionLink(" ", "DeleteEmployee", "Employee", new { employeeId = em.EmployeeId },
+                                        new AjaxOptions
+                                        {
+
+                                            UpdateTargetId = "main",
+
+                                        },
+                                        new
+                                        {
+                                            Class = "glyphicon glyphicon-remove"
+                                        })
+                                </div>
+                            </div>
+                        }
+                    </details>
+                    @BuildTree(departmentslist, department.DepartmentId)
+                </li>
+            }
+        </ul>
+
+}
+}
+
+@BuildTree(Model)
+
+
