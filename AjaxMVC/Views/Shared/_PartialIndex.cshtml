@@ -6,7 +6,7 @@ var listDepartments = departmentslist.Where(d => d.ParentDepartmentId == parentI
 if (listDepartments.Any())
 {
 
-        <ul>
+        <ul class="ul-tree">
             @foreach (var department in listDepartments)
             {
                 <li>

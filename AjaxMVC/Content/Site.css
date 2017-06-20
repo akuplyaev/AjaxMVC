@@ -22,3 +22,9 @@ select,
 textarea {
     max-width: 280px;
 }
+ul.ul-tree { padding-left:25px; }
+ul.ul-tree ul { margin:0; padding-left:6px; }
+ul.ul-tree li { position:relative; list-style:none outside none; border-left:solid 1px brown; margin:0; padding:0 0 0 19px; line-height:23px; }
+ul.ul-tree li:before { content:''; display:block; border-bottom:solid 1px brown; position:absolute; width:18px; height:11px; left:0; top:0; }
+ul.ul-tree li:last-child { border-left:0 none; }
+ul.ul-tree li:last-child:before { border-left:solid 1px #999; }
